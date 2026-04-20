@@ -26,7 +26,7 @@
             $data = $recado['data'];
             include 'components/recado.php';
         }
-    ?>
+        ?>
 </body>
 </html>
 
