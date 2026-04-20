@@ -1,0 +1,25 @@
+name: Continuous Delivery
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deliver:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      - name: Criar Artefato do Projeto
+        uses: actions/upload-artifact@v4
+        with:
+          name: mural-de-recados-completo
+          path: |
+            ./
+            !./.git
+            !./.github
+            !./node_modules
