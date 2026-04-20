@@ -1,0 +1,41 @@
+services:
+  php:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=devops
+      - DB_PASSWORD=devops_password
+      - DB_NAME=mural_recados
+    volumes:
+      - .:/app
+    depends_on:
+      - mysql
+    networks:
+      - devops-network
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: mural_recados
+      MYSQL_USER: devops
+      MYSQL_PASSWORD: devops_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - devops-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+volumes:
+  mysql_data:
+
+networks:
+  devops-network:
+    driver: bridge

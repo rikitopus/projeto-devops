@@ -1,5 +1,5 @@
 name: Continuous Integration
-on: [push, pull_request]
+on: push
 
 jobs:
   build:
@@ -21,3 +21,22 @@ jobs:
 
       - name: Security Audit
         run: composer audit
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Build and start Docker containers
+        run: docker compose up -d
+
+      - name: Wait for MySQL
+        run: docker compose exec -T mysql mysqladmin ping -h localhost --silent --wait=10
+
+      - name: Verify PHP is running
+        run: docker compose exec -T php php -v
+
+      - name: Stop Docker containers
+        if: always()
+        run: docker compose down
