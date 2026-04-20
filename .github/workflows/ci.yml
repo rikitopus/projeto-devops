@@ -1,0 +1,23 @@
+name: Continuous Integration
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.5"
+
+      - name: Install Dependencies
+        run: composer install
+
+      - name: PHP Lint
+        run: vendor/bin/phpcs src/
+
+      - name: Security Audit
+        run: composer audit
