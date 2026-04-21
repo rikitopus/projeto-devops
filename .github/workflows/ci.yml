@@ -40,3 +40,25 @@ jobs:
       - name: Stop Docker containers
         if: always()
         run: docker compose down
+
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Notify on any push
+        if: github.event_name == 'push'
+        uses: appleboy/discord-action@master
+        with:
+          webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+          webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
+          color: "#f4e842"
+          username: "GitHub Bot"
+          message: |
+            🔔 Push realizado!
+
+            **${{ github.event.head_commit.message }}**
+
+            🌿 Branch: `${{ github.ref_name }}`
+
+            [Repositório](${{ github.event.repository.html_url }})
