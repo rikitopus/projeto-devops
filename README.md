@@ -2,5 +2,41 @@
 
 ## Funcionalidade
 
-Mural de recados que registra o nome a mensagem da pessoa usuária.
+Mural de recados que registra o nome, mensagem e data.
 Além do formulário, a página mostra uma lista com os últimos recados registrados.
+
+## Setup
+
+### 1. Inicie os containers
+
+```bash
+docker-compose up -d
+```
+
+### 2. Inicialize o banco de dados
+
+Acesse o container PHP e execute o script de inicialização:
+
+```bash
+docker-compose exec php php src/init-db.php
+```
+
+Isso irá criar a tabela `recados` com os seguintes campos:
+
+- `id` (AUTO_INCREMENT PRIMARY KEY)
+- `nome` (VARCHAR 255, obrigatório)
+- `mensagem` (TEXT, obrigatório)
+- `data` (DATE, obrigatório)
+
+### 3. Acesse a aplicação
+
+Abra seu navegador e navegue para:
+
+```
+http://localhost:8000/src/index.php
+```
+
+## Validações
+
+- **Todos os campos são obrigatórios** (nome, data, mensagem)
+- **A data não pode ser no futuro** - O formulário impede a seleção de datas futuras usando o atributo `max` e valida no servidor
