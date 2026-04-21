@@ -40,3 +40,11 @@ http://localhost:8000/src/index.php
 
 - **Todos os campos são obrigatórios** (nome, data, mensagem)
 - **A data não pode ser no futuro** - O formulário impede a seleção de datas futuras usando o atributo `max` e valida no servidor
+
+## Lint
+
+Para corrigir automaticamente os problemas de estilo de código de acordo com o padrão PSR12:
+
+```bash
+docker-compose exec php php vendor/bin/phpcbf src/ --standard=PSR12
+```
