@@ -14,19 +14,27 @@
 
     <h2>Últimos Recados</h2>
     <?php
-        $recados = [
-            ["nome" => "Ricardo", "mensagem" => "Este é o primeiro recado!", "data" => "2026-04-19"],
-            ["nome" => "Maria", "mensagem" => "Olá, pessoal! Tudo bem?", "data" => "2026-04-18"],
-            ["nome" => "João", "mensagem" => "Testando o mural de recados.", "data" => "2026-04-17"],
-        ];
+        require_once __DIR__ . '/config/database.php';
 
-        foreach ($recados as $recado) {
-            $nome = $recado['nome'];
-            $mensagem = $recado['mensagem'];
-            $data = $recado['data'];
-            include 'components/recado.php';
+    try {
+        $sql = "SELECT nome, mensagem, data FROM recados ORDER BY data DESC LIMIT 10";
+        $stmt = $pdo->query($sql);
+        $recados = $stmt->fetchAll();
+
+        if (empty($recados)) {
+            echo '<p>Nenhum recado registrado ainda.</p>';
+        } else {
+            foreach ($recados as $recado) {
+                $nome = $recado['nome'];
+                $mensagem = $recado['mensagem'];
+                $data = $recado['data'];
+                include 'components/recado.php';
+            }
         }
-        ?>
+    } catch (PDOException $e) {
+        echo '<p>Nenhum recado registrado ainda.</p>';
+    }
+    ?>
 </body>
 </html>
 
