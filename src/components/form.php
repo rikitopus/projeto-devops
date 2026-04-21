@@ -64,10 +64,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <input type="text" id="nome" name="nome" value="<?php echo htmlspecialchars($_POST['nome'] ?? ''); ?>" required>
 
     <label for="data">Data:</label>
-    <input type="date" id="data" name="data" value="<?php echo htmlspecialchars($_POST['data'] ?? date('Y-m-d')); ?>" max="<?php echo date('Y-m-d'); ?>" required>
+    <input 
+        type="date" 
+        id="data" 
+        name="data" 
+        value="<?php echo htmlspecialchars($_POST['data'] ?? date('Y-m-d')); ?>" 
+        max="<?php echo date('Y-m-d'); ?>" 
+        required
+    >
 
     <label for="mensagem">Mensagem:</label>
-    <textarea id="mensagem" name="mensagem" required><?php echo htmlspecialchars($_POST['mensagem'] ?? ''); ?></textarea>
+    <textarea id="mensagem" name="mensagem" required>
+        <?php echo htmlspecialchars($_POST['mensagem'] ?? ''); ?>
+    </textarea>
 
     <button type="submit">Enviar</button>
 </form>
