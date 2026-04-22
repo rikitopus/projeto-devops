@@ -1,2 +1,10 @@
-vendor
-node_modules
+# Dependências
+/vendor/
+/node_modules/
+
+# Caches de Testes
+.phpunit.cache/
+.phpunit.result.cache
+
+# Docker
+*.log

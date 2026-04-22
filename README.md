@@ -48,3 +48,14 @@ Para corrigir automaticamente os problemas de estilo de código de acordo com o 
 ```bash
 docker-compose exec php php vendor/bin/phpcbf src/ --standard=PSR12
 ```
+
+## Testes
+
+Para executar os testes com PHPUnit:
+
+```bash
+docker-compose exec php ./vendor/bin/phpunit
+```
+
+Os testes devem ser criados no diretório `tests/` seguindo a convenção `*Test.php`.
+
