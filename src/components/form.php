@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     >
 
     <label for="mensagem">Mensagem:</label>
-    <textarea id="mensagem" name="mensagem" required><?php echo htmlspecialchars($mensagem ?? ''); ?></textarea>
+    <textarea id="mensagem" name="mensagem" maxlength="200" required><?php echo htmlspecialchars($mensagem ?? ''); ?></textarea>
 
     <button type="submit">Enviar</button>
 </form>

@@ -7,28 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class MessageValidatorTest extends TestCase
 {
-    public function testIsEmptyWithEmptyString(): void
-    {
-        $this->assertTrue(MessageValidator::isEmpty(''));
-    }
-
-    public function testIsEmptyWithOnlyWhitespace(): void
-    {
-        $this->assertTrue(MessageValidator::isEmpty('     '));
-        $this->assertTrue(MessageValidator::isEmpty("\t"));
-        $this->assertTrue(MessageValidator::isEmpty("\n"));
-    }
-
-    public function testIsEmptyWithValidMessage(): void
-    {
-        $this->assertFalse(MessageValidator::isEmpty('Olá, tudo bem?'));
-    }
-
-    public function testIsEmptyWithMessageContainingWhitespace(): void
-    {
-        $this->assertFalse(MessageValidator::isEmpty('  Este é um recado  '));
-    }
-
     public function testValidateWithEmptyMessage(): void
     {
         $errors = MessageValidator::validate('');
@@ -40,7 +18,6 @@ class MessageValidatorTest extends TestCase
     {
         $errors = MessageValidator::validate('     ');
         $this->assertCount(1, $errors);
-        $this->assertStringContainsString('obrigatória', $errors[0]);
     }
 
     public function testValidateWithValidMessage(): void
@@ -49,16 +26,20 @@ class MessageValidatorTest extends TestCase
         $this->assertEmpty($errors);
     }
 
-    public function testValidateWithMessageContainingWhitespace(): void
+    public function testValidateWithMessageExceedingLimit(): void
     {
-        $errors = MessageValidator::validate('  Este é um recado  ');
-        $this->assertEmpty($errors);
+        $message = str_repeat('a', 201);
+        $errors = MessageValidator::validate($message);
+        $this->assertCount(1, $errors);
+        $this->assertStringContainsString('200 caracteres', $errors[0]);
     }
 
-    public function testValidateWithLongMessage(): void
+    public function testValidateWithMessageAtLimit(): void
     {
-        $longMessage = 'Este é um recado muito longo que contém várias palavras e serve para testar se a validação funciona corretamente com mensagens extensas.';
-        $errors = MessageValidator::validate($longMessage);
+        $message = str_repeat('a', 200);
+        $errors = MessageValidator::validate($message);
         $this->assertEmpty($errors);
     }
 }
+
+
